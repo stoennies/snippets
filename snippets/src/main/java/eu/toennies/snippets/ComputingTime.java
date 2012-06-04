@@ -1,5 +1,6 @@
 package eu.toennies.snippets;
 
+
 public class ComputingTime {
 	
 	public static long getInMiliseconds(long startTime) {
