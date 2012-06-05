@@ -4,8 +4,20 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * This utility class provides a MD5 hashing.
+ * 
+ * @author toennies
+ *
+ */
 public class AeSimpleMD5 {
 
+	/**
+	 * This method converts a byte[] array to its hex version.
+	 * 
+	 * @param data - the byte array to convert
+	 * @return a Hex String representation of the given byte array
+	 */
 	private static String convertToHex(byte[] data) {
 		StringBuffer buf = new StringBuffer();
 		for (int i = 0; i < data.length; i++) {
@@ -22,6 +34,15 @@ public class AeSimpleMD5 {
 		return buf.toString();
 	}
 
+	/**
+	 * This method calculates a M5D hash of the given text.
+	 * 
+	 * @param text - the text to hash
+	 * @return a 32 character long hash of the given text
+	 * 
+	 * @throws NoSuchAlgorithmException if a MD5 algorithm could not be found
+	 * @throws UnsupportedEncodingException if the utf-8 encoding is not available
+	 */
 	public static String MD5(String text) throws NoSuchAlgorithmException,
 			UnsupportedEncodingException {
 		MessageDigest md;
