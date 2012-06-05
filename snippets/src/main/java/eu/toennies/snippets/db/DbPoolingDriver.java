@@ -1,6 +1,7 @@
 package eu.toennies.snippets.db;
 
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 import org.apache.commons.dbcp.ConnectionFactory;
@@ -13,25 +14,58 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Connection con = DriverManager.getConnection(DbPoolingDriver.getPoolName());
+ * A pooling driver for a database connection.
+ * To get a new connection use the following code:
+ * <code>Connection connection = DriverManager.getConnection(DbPoolingDriver.getPoolName());</code>
+ * 
+ * A pooling driver instance has to be initialized with:
+ * 
+ * <code>IPoolingDriverConfig config = new PoolingDriverConfig();</code>
+ * <code>DBPoolingDriver.setConfig(config);</code>
  * 
  * @author toennies
  * 
  */
 public class DbPoolingDriver {
+	/**
+	 * The instance of the pooling driver 
+	 */
 	private static volatile DbPoolingDriver INSTANCE;
+	
+	/**
+	 * The logger used in the instance 
+	 */
 	private Logger logger = LoggerFactory.getLogger(this.getClass()
 			.getCanonicalName());
 
+	/**
+	 * The pooling url
+	 */
 	private static final String POOLING_URL = "jdbc:apache:commons:dbcp:";
 
+	/**
+	 * The configuration used for this pool 
+	 */
 	private IPoolingDriverConfig config;
+	
+	/**
+	 * true if the pool has been initialized with a configuration 
+	 */
 	private boolean isInitialized = false;
 
+	/**
+	 * The private constructor for a real singelton.
+	 */
 	private DbPoolingDriver() {
 
 	}
 
+	/**
+	 * This method retrieves the current instance of the pooling driver.
+	 * There is always just one in the system (singelton).
+	 * 
+	 * @return the DbPoolingDriver instance
+	 */
 	public static DbPoolingDriver getInstance() {
 		if (INSTANCE == null) {
 			synchronized (DbPoolingDriver.class) {
@@ -42,7 +76,14 @@ public class DbPoolingDriver {
 		return INSTANCE;
 	}
 
-	private void setupDriver(String connectURI) throws Exception {
+	/**
+	 * This method sets the driver up.
+	 * 
+	 * @param connectURI - the URI to connect to
+	 * @throws ClassNotFoundException is thrown if the org.apache.commons.dbcp.PoolingDriver class could not be found.
+	 * @throws SQLException is thrown if the DriverManager cannot get a driver for our pool 
+	 */
+	private void setupDriver(String connectURI) throws ClassNotFoundException, SQLException {
 		//
 		// First, we'll need a ObjectPool that serves as the
 		// actual pool of connections.
@@ -93,7 +134,15 @@ public class DbPoolingDriver {
 		//
 	}
 
-	public void printDriverStats() throws Exception {
+	/**
+	 * This method print out the current driver status.
+	 * It uses the SLF4J logging functionality in the INFO mode.
+	 * 
+	 * @throws PoolingException is thrown if the driver has not been initialized
+	 * @throws SQLException is thrown if the DriverManager cannot get a driver for our pool 
+	 * 
+	 */
+	public void printDriverStats() throws PoolingException, SQLException {
 		checkConfig();
 
 		PoolingDriver driver = (PoolingDriver) DriverManager
@@ -101,12 +150,18 @@ public class DbPoolingDriver {
 		ObjectPool connectionPool = driver.getConnectionPool(config
 				.getPoolName());
 
-		System.out.println("NumActive: " + connectionPool.getNumActive());
-		System.out.println("NumIdle: " + connectionPool.getNumIdle());
+		logger.info("NumActive: " + connectionPool.getNumActive());
+		logger.info("NumIdle: " + connectionPool.getNumIdle());
 
 	}
 
-	public void shutdownDriver() throws Exception {
+	/**
+	 * This method shut the driver down.
+	 * 
+	 * @throws PoolingException is thrown if the driver has not been initialized
+	 * @throws SQLException is thrown if the DriverManager cannot get a driver for our pool 
+	 */
+	public void shutdownDriver() throws PoolingException, SQLException {
 		checkConfig();
 
 		PoolingDriver driver = (PoolingDriver) DriverManager
@@ -114,6 +169,11 @@ public class DbPoolingDriver {
 		driver.closePool(config.getPoolName());
 	}
 
+	/**
+	 * This method initialize the driver instance with a current configuration.
+	 * 
+	 * @param config - an instance of a IPoolingDriverConfig
+	 */
 	public static void setConfig(IPoolingDriverConfig config) {
 		if (INSTANCE == null) {
 			getInstance();
@@ -123,6 +183,9 @@ public class DbPoolingDriver {
 		INSTANCE.init();
 	}
 
+	/**
+	 * This method initializes the current driver by retrieving the Class for the driver name.
+	 */
 	private void init() {
         logger.trace("Loading underlying JDBC driver.");
         try {
@@ -142,12 +205,23 @@ public class DbPoolingDriver {
         isInitialized = true;
 	}
 	
+	/**
+	 * This method retrieves the current pool name.
+	 * 
+	 * @return the used pool name
+	 * @throws PoolingException is thrown if the driver has not been initialized
+	 */
 	public String getPoolName() throws PoolingException {
 		checkConfig();
 
 		return POOLING_URL + this.config.getPoolName();
 	}
 
+	/**
+	 * This method checks if the driver has been initialized with a IPoolingDriverConfig instance.
+	 * 
+	 * @throws PoolingException is thrown if the driver has not been initialized
+	 */
 	private void checkConfig() throws PoolingException {
 		if (!INSTANCE.isInitialized) {
 			throw new PoolingException(
