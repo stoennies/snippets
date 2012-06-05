@@ -3,21 +3,31 @@ package eu.toennies.snippets.collections;
 import java.io.File;
 import java.util.Comparator;
 
+/**
+ * This filter class is an implementation of a comparator for files.
+ * It will sort the files as Windows does in its explorer.
+ * 
+ * @author toennies
+ *
+ */
 public class WindowsExplorerStringComparator implements Comparator<File> {
-	private String str1, str2;
-	private int pos1, pos2, len1, len2;
+	private String filePath1, filePath2;
+	private int pos1, pos2, pathLength1, pathLength2;
 
-	public int compare(File s1, File s2) {
-		str1 = s1.getAbsolutePath();
-		str2 = s2.getAbsolutePath();
-		len1 = str1.length();
-		len2 = str2.length();
+	/* (non-Javadoc)
+	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+	 */
+	public int compare(File file1, File file2) {
+		filePath1 = file1.getAbsolutePath();
+		filePath2 = file2.getAbsolutePath();
+		pathLength1 = filePath1.length();
+		pathLength2 = filePath2.length();
 		pos1 = pos2 = 0;
 
 		int result = 0;
-		while (result == 0 && pos1 < len1 && pos2 < len2) {
-			char ch1 = str1.charAt(pos1);
-			char ch2 = str2.charAt(pos2);
+		while (result == 0 && pos1 < pathLength1 && pos2 < pathLength2) {
+			char ch1 = filePath1.charAt(pos1);
+			char ch2 = filePath2.charAt(pos2);
 
 			if (Character.isDigit(ch1)) {
 				result = Character.isDigit(ch2) ? compareNumbers() : -1;
@@ -32,25 +42,29 @@ public class WindowsExplorerStringComparator implements Comparator<File> {
 			pos2++;
 		}
 
-		return result == 0 ? len1 - len2 : result;
+		return result == 0 ? pathLength1 - pathLength2 : result;
 	}
 
+	/**
+	 * This method compares numbers within the file path.
+	 * @return the comparator result
+	 */
 	private int compareNumbers() {
 		int end1 = pos1 + 1;
-		while (end1 < len1 && Character.isDigit(str1.charAt(end1))) {
+		while (end1 < pathLength1 && Character.isDigit(filePath1.charAt(end1))) {
 			end1++;
 		}
 		int fullLen1 = end1 - pos1;
-		while (pos1 < end1 && str1.charAt(pos1) == '0') {
+		while (pos1 < end1 && filePath1.charAt(pos1) == '0') {
 			pos1++;
 		}
 
 		int end2 = pos2 + 1;
-		while (end2 < len2 && Character.isDigit(str2.charAt(end2))) {
+		while (end2 < pathLength2 && Character.isDigit(filePath2.charAt(end2))) {
 			end2++;
 		}
 		int fullLen2 = end2 - pos2;
-		while (pos2 < end2 && str2.charAt(pos2) == '0') {
+		while (pos2 < end2 && filePath2.charAt(pos2) == '0') {
 			pos2++;
 		}
 
@@ -60,7 +74,7 @@ public class WindowsExplorerStringComparator implements Comparator<File> {
 		}
 
 		while (pos1 < end1 && pos2 < end2) {
-			delta = str1.charAt(pos1++) - str2.charAt(pos2++);
+			delta = filePath1.charAt(pos1++) - filePath2.charAt(pos2++);
 			if (delta != 0) {
 				return delta;
 			}
@@ -72,9 +86,15 @@ public class WindowsExplorerStringComparator implements Comparator<File> {
 		return fullLen2 - fullLen1;
 	}
 
+	/**
+	 * This method compares characters.
+	 * 
+	 * @param isLetters
+	 * @return the compare value of the character
+	 */
 	private int compareOther(boolean isLetters) {
-		char ch1 = str1.charAt(pos1);
-		char ch2 = str2.charAt(pos2);
+		char ch1 = filePath1.charAt(pos1);
+		char ch2 = filePath2.charAt(pos2);
 
 		if (ch1 == ch2) {
 			return 0;
@@ -91,4 +111,5 @@ public class WindowsExplorerStringComparator implements Comparator<File> {
 
 		return ch1 - ch2;
 	}
+	
 }
