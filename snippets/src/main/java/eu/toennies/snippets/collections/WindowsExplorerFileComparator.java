@@ -10,7 +10,7 @@ import java.util.Comparator;
  * @author toennies
  *
  */
-public class WindowsExplorerStringComparator implements Comparator<File> {
+public class WindowsExplorerFileComparator implements Comparator<File> {
 	private String filePath1, filePath2;
 	private int pos1, pos2, pathLength1, pathLength2;
 

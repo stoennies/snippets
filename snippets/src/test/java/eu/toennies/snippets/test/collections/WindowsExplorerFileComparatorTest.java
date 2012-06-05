@@ -7,9 +7,9 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import eu.toennies.snippets.collections.WindowsExplorerStringComparator;
+import eu.toennies.snippets.collections.WindowsExplorerFileComparator;
 
-public class WindowsExplorerStringComparatorTest {
+public class WindowsExplorerFileComparatorTest {
 
 	final File[] filesExpected = { new File("slide1.png"), new File("slide2.png"),
 			new File("slide9.png"), new File("slide10.png"),
@@ -21,7 +21,7 @@ public class WindowsExplorerStringComparatorTest {
 				new File("slide11.png"), new File("slide2.png"),
 				new File("slide9.png") };
 
-		Arrays.sort(filesToSort, new WindowsExplorerStringComparator());
+		Arrays.sort(filesToSort, new WindowsExplorerFileComparator());
 		assertArrayEquals(filesExpected, filesToSort);
 	}
 
