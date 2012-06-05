@@ -2,6 +2,12 @@ package eu.toennies.snippets;
 
 import java.text.DecimalFormat;
 
+/**
+ * A utility class for calculating the memory usage of a routine.
+ * 
+ * @author toennies
+ *
+ */
 public class MemoryUsage {
 	
 	private final long memstart;

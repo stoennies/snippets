@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
-import eu.toennies.snippets.collections.WindowsExplorerStringComparator;
+import eu.toennies.snippets.collections.WindowsExplorerFileComparator;
 
 public class FileListIndexer {
 
@@ -49,7 +49,7 @@ public class FileListIndexer {
 	public void createIndex(String sourceName, boolean recursive, String[] fileTypes) throws IOException {
 		Collection<File> fileList = FileUtils.listFiles(new File(sourceName), fileTypes, recursive);
 		files = new ArrayList<File>(fileList);
-		Collections.sort(files, new WindowsExplorerStringComparator());
+		Collections.sort(files, new WindowsExplorerFileComparator());
 		
 		// Open the file for read/write access ("rw"). We only need to write,
 		// but have to request read access as well
