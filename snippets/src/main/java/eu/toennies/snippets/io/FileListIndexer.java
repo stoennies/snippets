@@ -48,7 +48,6 @@ public class FileListIndexer {
 	// This method creates the filename list may take a long time!
 	public void createIndex(String sourceName, boolean recursive, String[] fileTypes) throws IOException {
 		Collection<File> fileList = FileUtils.listFiles(new File(sourceName), fileTypes, recursive);
-		System.out.println("Size: " + fileList.size());
 		files = new ArrayList<File>(fileList);
 		Collections.sort(files, new WindowsExplorerFileComparator());
 		
