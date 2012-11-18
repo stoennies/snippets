@@ -38,4 +38,10 @@ public interface IPoolingDriverConfig {
 	 */
 	public String getPoolName();
 
+	/**
+	 * Retrieves the number of max active connections
+	 * @return the pool name
+	 */
+	public String getPoolSize();
+
 }
