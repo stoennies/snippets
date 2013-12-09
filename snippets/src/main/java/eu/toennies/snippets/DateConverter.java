@@ -1,6 +1,8 @@
 package eu.toennies.snippets;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -25,6 +27,19 @@ public class DateConverter {
 	    cal.set( Calendar.MONTH, month );
 	    cal.set( Calendar.DATE, day );
 		return new Date(cal.getTimeInMillis());
+	}
+	
+	public static String toUtcDate(String dateStr) throws IllegalArgumentException {
+		SimpleDateFormat out = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		// Add other parsing formats to try as you like:
+		String[] dateFormats = { "yyyy-MM-dd", "MMM dd, yyyy hh:mm:ss Z" };
+		for (String dateFormat : dateFormats) {
+			try {
+				return out.format(new SimpleDateFormat(dateFormat).parse(dateStr));
+			} catch (ParseException ignore) {
+			}
+		}
+		throw new IllegalArgumentException("Invalid date: " + dateStr);
 	}
 
 

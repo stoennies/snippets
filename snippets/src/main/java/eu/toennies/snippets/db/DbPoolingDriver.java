@@ -113,7 +113,7 @@ public class DbPoolingDriver {
 		Properties props = new Properties();
 		props.setProperty("user", config.getUsername());
 		props.setProperty("password", config.getPassword());
-		props.setProperty("maxActive", config.getPoolSize());
+		props.setProperty("maxActive", "50");
 		ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(connectURI, props);
 
 		//
