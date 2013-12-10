@@ -111,8 +111,8 @@ public class DbPoolingDriver {
 		// arguments.
 		//
 		Properties props = new Properties();
-		props.setProperty("user", config.getUsername());
-		props.setProperty("password", config.getPassword());
+		props.setProperty("user", config.getDBUsername());
+		props.setProperty("password", config.getDBPassword());
 		props.setProperty("maxActive", "50");
 		ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(connectURI, props);
 
@@ -134,7 +134,7 @@ public class DbPoolingDriver {
 		//
 		// ...and register our pool with it.
 		//
-		driver.registerPool(config.getPoolName(), connectionPool);
+		driver.registerPool(config.getDBPoolName(), connectionPool);
 
 		//
 		// Now we can just use the connect string
@@ -158,7 +158,7 @@ public class DbPoolingDriver {
 		checkConfig();
 
 		PoolingDriver driver = (PoolingDriver) DriverManager.getDriver(POOLING_URL);
-		ObjectPool connectionPool = driver.getConnectionPool(config.getPoolName());
+		ObjectPool connectionPool = driver.getConnectionPool(config.getDBPoolName());
 
 		logger.info("NumActive: " + connectionPool.getNumActive());
 		logger.info("NumIdle: " + connectionPool.getNumIdle());
@@ -178,7 +178,7 @@ public class DbPoolingDriver {
 		checkConfig();
 
 		PoolingDriver driver = (PoolingDriver) DriverManager.getDriver(POOLING_URL);
-		driver.closePool(config.getPoolName());
+		driver.closePool(config.getDBPoolName());
 	}
 
 	/**
@@ -195,7 +195,7 @@ public class DbPoolingDriver {
 		INSTANCE.config = config;
 		INSTANCE.init();
 
-		if (INSTANCE.config.getDriver().contains("DB2Driver")) {
+		if (INSTANCE.config.getDBDriver().contains("DB2Driver")) {
 			INSTANCE.isDB2 = true;
 		}
 	}
@@ -207,7 +207,7 @@ public class DbPoolingDriver {
 	private void init() {
 		logger.trace("Loading underlying JDBC driver.");
 		try {
-			Class.forName(config.getDriver());
+			Class.forName(config.getDBDriver());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -215,7 +215,7 @@ public class DbPoolingDriver {
 
 		logger.trace("Setting up driver.");
 		try {
-			setupDriver(config.getURL());
+			setupDriver(config.getDBURL());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -233,7 +233,7 @@ public class DbPoolingDriver {
 	public String getPoolName() throws PoolingException {
 		checkConfig();
 
-		return POOLING_URL + this.config.getPoolName();
+		return POOLING_URL + this.config.getDBPoolName();
 	}
 
 	public boolean isDB2() {
