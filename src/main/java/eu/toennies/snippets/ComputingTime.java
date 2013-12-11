@@ -6,6 +6,13 @@ public class ComputingTime {
 	private static final float sixty = 60F;
 	private static final float twentyFour = 24F;
 	
+	/**
+	 * Hidden utility class constructor
+	 */
+	private ComputingTime() {
+		super();
+	}
+
 	
 	public static long getInMiliseconds(long startTime) {
 		return getInMiliseconds(startTime, System.currentTimeMillis());

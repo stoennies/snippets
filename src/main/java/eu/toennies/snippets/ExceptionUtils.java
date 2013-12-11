@@ -11,6 +11,13 @@ import java.io.Writer;
  *
  */
 public class ExceptionUtils {
+	
+	/**
+	 * Hidden utility class constructor
+	 */
+	private ExceptionUtils() {
+		super();
+	}
 
 	
 	/**

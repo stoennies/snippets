@@ -13,6 +13,13 @@ import eu.toennies.snippets.collections.WindowsExplorerFileComparator;
 
 public class FileLister {
 	
+	/**
+	 * Hidden utility class constructor
+	 */
+	private FileLister() {
+		super();
+	}
+
 	public static List<File> getSortedWindowsExplorerList(final File directory, final String[] fileTypes, final boolean recursive)
 			throws IOException {
 

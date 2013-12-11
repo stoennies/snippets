@@ -30,7 +30,7 @@ public final class DbPoolingDriver {
 	/**
 	 * The instance of the pooling driver
 	 */
-	private static volatile DbPoolingDriver s_Instance;
+	private static volatile DbPoolingDriver sInstance;
 
 	/**
 	 * The logger used in the instance
@@ -72,13 +72,13 @@ public final class DbPoolingDriver {
 	 * @return the DbPoolingDriver instance
 	 */
 	public static DbPoolingDriver getInstance() {
-		if (s_Instance == null) {
+		if (sInstance == null) {
 			synchronized (DbPoolingDriver.class) {
-				s_Instance = new DbPoolingDriver();
+				sInstance = new DbPoolingDriver();
 			}
 		}
 
-		return s_Instance;
+		return sInstance;
 	}
 
 	/**
@@ -121,7 +121,6 @@ public final class DbPoolingDriver {
 		// the "real" Connections created by the ConnectionFactory with
 		// the classes that implement the pooling functionality.
 		//
-		@SuppressWarnings("unused")
         PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory,
 				connectionPool, null, null, false, true);
 
@@ -188,15 +187,15 @@ public final class DbPoolingDriver {
 	 *            - an instance of a IPoolingDriverConfig
 	 */
 	public static void setConfig(IPoolingDriverConfig config) {
-		if (s_Instance == null) {
+		if (sInstance == null) {
 			getInstance();
 		}
 
-		s_Instance.config = config;
-		s_Instance.init();
+		sInstance.config = config;
+		sInstance.init();
 
-		if (s_Instance.config.getDBDriver().contains("DB2Driver")) {
-			s_Instance.isDB2 = true;
+		if (sInstance.config.getDBDriver().contains("DB2Driver")) {
+			sInstance.isDB2 = true;
 		}
 	}
 
@@ -248,7 +247,7 @@ public final class DbPoolingDriver {
 	 *             is thrown if the driver has not been initialized
 	 */
 	private void checkConfig() throws PoolingException {
-		if (!s_Instance.isInitialized) {
+		if (!sInstance.isInitialized) {
 			throw new PoolingException("Pooling Driver is not initialized. Please call setConfig()");
 		}
 	}

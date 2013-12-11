@@ -17,8 +17,8 @@ public class WindowsExplorerFileComparator implements Comparator<File>, Serializ
 	private int pos1, pos2, pathLength1, pathLength2;
 	
 	public WindowsExplorerFileComparator() {
-		this.filePath1 = new String();
-		this.filePath2 = new String();
+		this.filePath1 = "";
+		this.filePath2 = "";
 	}
 
 	/* (non-Javadoc)

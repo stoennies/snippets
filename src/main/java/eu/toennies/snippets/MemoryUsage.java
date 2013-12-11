@@ -10,9 +10,9 @@ import java.text.DecimalFormat;
  */
 public class MemoryUsage {
 	
-	private final float thousand24 = 1024F;
-	private final long memstart;
-	private final DecimalFormat df;
+	private final static float thousand24 = 1024F;
+	private long memstart;
+	private DecimalFormat df;
 
 	/**
 	 * The default constructor using the 0.00 format for the method return values.

@@ -10,11 +10,12 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class UrlWorker {
 
-	private static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(UrlWorker.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(UrlWorker.class);
 	
 
 	/**
@@ -123,5 +124,4 @@ public final class UrlWorker {
 		}
 		return true;
 	}
-
 }

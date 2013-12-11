@@ -13,7 +13,13 @@ import java.util.Calendar;
  */
 public class DateConverter {
 	
-	
+	/**
+	 * Hidden utility class constructor
+	 */
+	private DateConverter() {
+		super();
+	}
+
 	/**
 	 * This method instantiates a sql data object from the given integer values.
 	 * @param day to use
@@ -29,7 +35,7 @@ public class DateConverter {
 		return new Date(cal.getTimeInMillis());
 	}
 	
-	public static String toUtcDate(String dateStr) throws IllegalArgumentException {
+	public static String toUtcDate(String dateStr) throws Exception {
 		SimpleDateFormat out = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 		// Add other parsing formats to try as you like:
 		String[] dateFormats = { "yyyy-MM-dd", "MMM dd, yyyy hh:mm:ss Z" };
@@ -39,7 +45,7 @@ public class DateConverter {
 			} catch (ParseException ignore) {
 			}
 		}
-		throw new IllegalArgumentException("Invalid date: " + dateStr);
+		throw new Exception("Invalid date: " + dateStr);
 	}
 
 
