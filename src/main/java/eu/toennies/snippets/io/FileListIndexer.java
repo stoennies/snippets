@@ -61,7 +61,7 @@ public class FileListIndexer {
 		// Reserve space at the start of the file for the wordPositions array
 		// and the length of that array. 4 bytes for length plus 8 bytes for
 		// each long value in the array.
-		tempIndexFile.seek(4L + (8 * files.size()));
+		tempIndexFile.seek(4L + (8L * files.size()));
 
 		// Now, loop through the words and write them out to the file,
 		// recording the start position of each word. Note that the
