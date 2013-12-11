@@ -2,6 +2,13 @@ package eu.toennies.snippets;
 
 
 public class StringUtils {
+	
+	/**
+	 * Hidden constructor for utility class.
+	 */
+	private StringUtils() {
+		super();
+	}
 
 	/**
 	 * Removes trailing and leading whitespaces and replace all whitespaces occurring twice or more within

@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
  */
 public class MemoryUsage {
 	
+	private final float thousand24 = 1024F;
 	private final long memstart;
 	private final DecimalFormat df;
 
@@ -56,7 +57,7 @@ public class MemoryUsage {
 	 * @return the used memory in kilobytes
 	 */
 	public String getRoundedKB() {
-		return df.format(getBytes() /  1024F) + " KB";
+		return df.format(getBytes() /  thousand24) + " KB";
 	}
 
 	/**
@@ -64,7 +65,7 @@ public class MemoryUsage {
 	 * @return the used memory in megabytes
 	 */
 	public String getRoundedMB() {
-		return df.format(getBytes() /  (1024F * 1024F)) + " MB";
+		return df.format(getBytes() /  (thousand24 * thousand24)) + " MB";
 	}
 
 	/**
@@ -72,7 +73,7 @@ public class MemoryUsage {
 	 * @return the used memory in gigabytes
 	 */
 	public String getRoundedGB() {
-		return df.format(getBytes() /  (1024F * 1024F * 1024F)) + " GB";
+		return df.format(getBytes() /  (thousand24 * thousand24 * thousand24)) + " GB";
 	}
 
 }

@@ -23,6 +23,7 @@ public class FileListIndexer {
 	// Create a WordList object based on the named file
 	public FileListIndexer(String indexFileName) {
 		this.indexFileName = indexFileName;
+		this.positions = new long[0];
 	}
 	
 	public void openIndex() throws IOException {

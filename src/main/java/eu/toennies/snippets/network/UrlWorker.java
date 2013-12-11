@@ -2,7 +2,6 @@ package eu.toennies.snippets.network;
 
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +15,15 @@ import org.slf4j.LoggerFactory;
 public final class UrlWorker {
 
 	private static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(UrlWorker.class);
+	
+
+	/**
+	 * Hidden constructor for utility classes.
+	 */
+	private UrlWorker() {
+		super();
+	}
+	
 
 	/**
 	 * This method retrieves a binary file from a given URL and saves the file to
@@ -79,8 +87,9 @@ public final class UrlWorker {
 			int offset = 0;
 			while (offset < contentLength) {
 				bytesRead = in.read(data, offset, data.length - offset);
-				if (bytesRead == -1)
+				if (bytesRead == -1) {
 					break;
+				}
 				offset += bytesRead;
 			}
 			in.close();

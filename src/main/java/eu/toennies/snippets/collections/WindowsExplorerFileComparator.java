@@ -1,6 +1,7 @@
 package eu.toennies.snippets.collections;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
@@ -10,9 +11,15 @@ import java.util.Comparator;
  * @author toennies
  *
  */
-public class WindowsExplorerFileComparator implements Comparator<File> {
+public class WindowsExplorerFileComparator implements Comparator<File>, Serializable {
+    private static final long serialVersionUID = -7124403007270924002L;
 	private String filePath1, filePath2;
 	private int pos1, pos2, pathLength1, pathLength2;
+	
+	public WindowsExplorerFileComparator() {
+		this.filePath1 = new String();
+		this.filePath2 = new String();
+	}
 
 	/* (non-Javadoc)
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
@@ -22,7 +29,8 @@ public class WindowsExplorerFileComparator implements Comparator<File> {
 		filePath2 = file2.getAbsolutePath();
 		pathLength1 = filePath1.length();
 		pathLength2 = filePath2.length();
-		pos1 = pos2 = 0;
+		pos1 = 0;
+		pos2 = 0;
 
 		int result = 0;
 		while (result == 0 && pos1 < pathLength1 && pos2 < pathLength2) {

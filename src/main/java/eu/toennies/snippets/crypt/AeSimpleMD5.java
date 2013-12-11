@@ -11,6 +11,13 @@ import java.security.NoSuchAlgorithmException;
  *
  */
 public class AeSimpleMD5 {
+	
+	/**
+	 * Hidden constructor for utility class.
+	 */
+	private AeSimpleMD5() {
+		super();
+	}
 
 	/**
 	 * This method converts a byte[] array to its hex version.
@@ -22,14 +29,15 @@ public class AeSimpleMD5 {
 		StringBuffer buf = new StringBuffer();
 		for (int i = 0; i < data.length; i++) {
 			int halfbyte = (data[i] >>> 4) & 0x0F;
-			int two_halfs = 0;
+			int twoHalfs = 0;
 			do {
-				if ((0 <= halfbyte) && (halfbyte <= 9))
+				if ((0 <= halfbyte) && (halfbyte <= 9)) {
 					buf.append((char) ('0' + halfbyte));
-				else
+				} else {
 					buf.append((char) ('a' + (halfbyte - 10)));
+				}
 				halfbyte = data[i] & 0x0F;
-			} while (two_halfs++ < 1);
+			} while (twoHalfs++ < 1);
 		}
 		return buf.toString();
 	}
@@ -43,7 +51,7 @@ public class AeSimpleMD5 {
 	 * @throws NoSuchAlgorithmException if a MD5 algorithm could not be found
 	 * @throws UnsupportedEncodingException if the utf-8 encoding is not available
 	 */
-	public static String MD5(String text) throws NoSuchAlgorithmException,
+	public static String md5(String text) throws NoSuchAlgorithmException,
 			UnsupportedEncodingException {
 		MessageDigest md;
 		md = MessageDigest.getInstance("MD5");

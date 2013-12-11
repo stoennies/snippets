@@ -26,11 +26,11 @@ import org.slf4j.LoggerFactory;
  * @author toennies
  * 
  */
-public class DbPoolingDriver {
+public final class DbPoolingDriver {
 	/**
 	 * The instance of the pooling driver
 	 */
-	private static volatile DbPoolingDriver INSTANCE;
+	private static volatile DbPoolingDriver s_Instance;
 
 	/**
 	 * The logger used in the instance
@@ -72,13 +72,13 @@ public class DbPoolingDriver {
 	 * @return the DbPoolingDriver instance
 	 */
 	public static DbPoolingDriver getInstance() {
-		if (INSTANCE == null) {
+		if (s_Instance == null) {
 			synchronized (DbPoolingDriver.class) {
-				INSTANCE = new DbPoolingDriver();
+				s_Instance = new DbPoolingDriver();
 			}
 		}
 
-		return INSTANCE;
+		return s_Instance;
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class DbPoolingDriver {
 		// the classes that implement the pooling functionality.
 		//
 		@SuppressWarnings("unused")
-		PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory,
+        PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory,
 				connectionPool, null, null, false, true);
 
 		//
@@ -188,15 +188,15 @@ public class DbPoolingDriver {
 	 *            - an instance of a IPoolingDriverConfig
 	 */
 	public static void setConfig(IPoolingDriverConfig config) {
-		if (INSTANCE == null) {
+		if (s_Instance == null) {
 			getInstance();
 		}
 
-		INSTANCE.config = config;
-		INSTANCE.init();
+		s_Instance.config = config;
+		s_Instance.init();
 
-		if (INSTANCE.config.getDBDriver().contains("DB2Driver")) {
-			INSTANCE.isDB2 = true;
+		if (s_Instance.config.getDBDriver().contains("DB2Driver")) {
+			s_Instance.isDB2 = true;
 		}
 	}
 
@@ -248,7 +248,7 @@ public class DbPoolingDriver {
 	 *             is thrown if the driver has not been initialized
 	 */
 	private void checkConfig() throws PoolingException {
-		if (!INSTANCE.isInitialized) {
+		if (!s_Instance.isInitialized) {
 			throw new PoolingException("Pooling Driver is not initialized. Please call setConfig()");
 		}
 	}
